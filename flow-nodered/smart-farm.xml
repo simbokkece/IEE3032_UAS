@@ -1,0 +1,295 @@
+[
+    {
+        "id": "65957d73c537dbb3",
+        "type": "tab",
+        "label": "Sistem Smart Farm",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "33663b41d987b872",
+        "type": "inject",
+        "z": "65957d73c537dbb3",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "fc70854abffd957a",
+                "f31e65159b806fee",
+                "262d83011da55fec"
+            ]
+        ]
+    },
+    {
+        "id": "fc70854abffd957a",
+        "type": "random",
+        "z": "65957d73c537dbb3",
+        "name": "Sensor Humidity",
+        "low": "0",
+        "high": "100",
+        "inte": "true",
+        "property": "payload",
+        "x": 480,
+        "y": 120,
+        "wires": [
+            [
+                "b2a2fedae3659e13",
+                "53e9f0e212a5fa39",
+                "c2baafb17ae6e05b"
+            ]
+        ]
+    },
+    {
+        "id": "f31e65159b806fee",
+        "type": "random",
+        "z": "65957d73c537dbb3",
+        "name": "Sensor Soil Acidity",
+        "low": "4",
+        "high": "9",
+        "inte": "false",
+        "property": "payload",
+        "x": 490,
+        "y": 320,
+        "wires": [
+            [
+                "558ae90afa380ac9",
+                "53e9f0e212a5fa39",
+                "515c7ddb58d156ff"
+            ]
+        ]
+    },
+    {
+        "id": "262d83011da55fec",
+        "type": "random",
+        "z": "65957d73c537dbb3",
+        "name": "Sensor Water Quality",
+        "low": "0",
+        "high": "20",
+        "inte": "true",
+        "property": "payload",
+        "x": 500,
+        "y": 560,
+        "wires": [
+            [
+                "53e9f0e212a5fa39",
+                "27c7c26dda47e4cd",
+                "144983dc61ce0224"
+            ]
+        ]
+    },
+    {
+        "id": "b2a2fedae3659e13",
+        "type": "mqtt out",
+        "z": "65957d73c537dbb3",
+        "name": "Humidity",
+        "topic": "farm/humidity",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "42f78dc81b1a3654",
+        "x": 740,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "53e9f0e212a5fa39",
+        "type": "debug",
+        "z": "65957d73c537dbb3",
+        "name": "debug 47",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 980,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "558ae90afa380ac9",
+        "type": "mqtt out",
+        "z": "65957d73c537dbb3",
+        "name": "Acidity",
+        "topic": "farm/acidity",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "42f78dc81b1a3654",
+        "x": 730,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "27c7c26dda47e4cd",
+        "type": "mqtt out",
+        "z": "65957d73c537dbb3",
+        "name": "Quality",
+        "topic": "farm/quality",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "42f78dc81b1a3654",
+        "x": 740,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "c2baafb17ae6e05b",
+        "type": "ui_gauge",
+        "z": "65957d73c537dbb3",
+        "name": "Sensor Humidity",
+        "group": "0dc5140fbbd809bd",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Sensor Humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "33",
+        "seg2": "66",
+        "className": "",
+        "x": 760,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "515c7ddb58d156ff",
+        "type": "ui_gauge",
+        "z": "65957d73c537dbb3",
+        "name": "Sensor Soil Acidity",
+        "group": "0dc5140fbbd809bd",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Sensor Soil Acidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": "4",
+        "max": "9",
+        "colors": [
+            "#b30000",
+            "#1dd323",
+            "#251698"
+        ],
+        "seg1": "6",
+        "seg2": "7",
+        "className": "",
+        "x": 770,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "144983dc61ce0224",
+        "type": "ui_gauge",
+        "z": "65957d73c537dbb3",
+        "name": "Sensor Water Quality",
+        "group": "0dc5140fbbd809bd",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Sensor Water Quality",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "20",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "7",
+        "seg2": "14",
+        "className": "",
+        "x": 780,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "42f78dc81b1a3654",
+        "type": "mqtt-broker",
+        "name": "localhost",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "0dc5140fbbd809bd",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "5f89958477bb7264",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": true,
+        "className": ""
+    },
+    {
+        "id": "5f89958477bb7264",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

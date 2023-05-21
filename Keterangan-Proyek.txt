@@ -1,0 +1,19 @@
+Sensor Pertama
+- Nama: Sensor Humidity
+- Fungsi: Mengukur kelembaban tanah
+- Jangka: 0-100
+
+Sensor Kedua
+- Nama: Sensor Soil Acidity
+- Fungsi: Mengukur tingkat keasaman tanah
+- Jangka: 4-9
+
+Sensor Ketiga
+- Nama: Sensor Water Quality
+- Fungsi: Mengukur kadar nutrisi dalam tanah
+- Jangka: 0-20
+
+Aktuator
+- Nama: Waterflow Regulator
+- Fungsi: mengatur aliran air ke tanah
+- Nilai bacaan dari ketiga sensor digunakan untuk menentukan seberapa besar aliran air yang diperlukan oleh tanah.

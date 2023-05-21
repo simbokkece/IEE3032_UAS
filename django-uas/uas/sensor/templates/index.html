@@ -1,0 +1,328 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sensor Value</title>
+    <!-- <meta http-equiv="refresh" content="2"> -->
+    
+    <style>
+        .image-container {
+          float: right;
+          margin-left: 10px;
+          margin-bottom: 10px;
+        }
+        
+        .image-container img {
+          display: block;
+          margin-bottom: 10px;
+        }
+    </style>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <h1>Sistem Smart Farming</h1>
+    <h3>Nathanael Hansen - 202000424</h3>
+  </head>
+
+  <body>
+    <!-- <canvas class="image-container" id="actuatorChart"></canvas> -->
+
+    <div class="container">    
+      <p>Sistem Smart Farm</p>
+      <table border="1">
+            <tr>
+                <th style="width:20%" align="left">Sensor Soil Humidity (%)</th>
+                <td style="width:20%" align="center"><span id="sensor_hum"></span></td>
+                <td style="width:30%"><canvas id="sensor1Chart"></canvas></td>
+            </tr>
+            <tr>
+                <th style="width:20%" align="left">Sensor Soil Acidity (pH)</th>
+                <td style="width:20%" align="center"><span id="sensor_aci"></span></td>
+                <td style="width:30%"><canvas id="sensor2Chart"></canvas></td>
+            </tr>
+            <tr>
+                <th style="width:20%" align="left">Sensor Water Quality (mg/L)</th>
+                <td style="width:20%" align="center"><span id="sensor_qua"></span></td>
+                <td style="width:30%"><canvas id="sensor3Chart"></canvas></td>
+            </tr>
+            <tr>
+              <th style="width:20%" align="left">Actuator Waterflow (m3)</th>
+              <td colspan="2" align="center"><span id="actuator1"></span></td>
+            </tr>
+            <tr>	
+                <td colspan="4"><canvas id="actuatorChart"></canvas></td>
+            </tr>
+      </table>
+    </div>
+
+    <!-- <script src="myscript.js"> -->
+    <script>
+      function updateSensorValue(endpoint, id) {
+          $.ajax({
+            method: "GET",
+            url: endpoint,
+            success: function(data) {
+                var value = document.getElementById(id);
+                value.innerHTML = data.value;
+            },
+            error: function(error_data) {
+                console.log(error_data);
+            }
+          })
+        }
+
+      function updateActuatorState(endpoint, id) {
+        $.ajax({
+          method: "GET",
+          url: endpoint,
+          success: function(data) {
+              var value = document.getElementById(id);
+              value.innerHTML = data.value;
+              console.log(data.value);
+          },
+          error: function(error_data) {
+              console.log(error_data);
+          }
+        })
+      }
+
+
+      var sensor1Chart = new Chart(document.getElementById("sensor1Chart"), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Sensor Humidity",
+          data: [],
+          borderColor: "#3e95cd",
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Sensor Humidity'
+        },
+        scales: {
+          xAxes: [{
+            display: true
+          }],
+          yAxes: [{
+            display: true,
+            ticks: {
+              // suggestedMin: 0,
+              // suggestedMax: 100
+            }
+          }]
+        }
+      }
+    });
+
+    function updateSensor1Chart(endpoint) {
+      $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data) {
+          sensor1Chart.data.labels.push(new Date().toLocaleTimeString());
+          sensor1Chart.data.datasets[0].data.push(data.value);
+
+          // hapus data lama jika data sudah mencapai 7
+          if (sensor1Chart.data.labels.length > 7) {
+            sensor1Chart.data.labels.shift();
+            sensor1Chart.data.datasets[0].data.shift();
+          }
+
+          sensor1Chart.update();
+        },
+        error: function(error_data) {
+          console.log(error_data);
+        }
+      });
+    }
+
+
+
+    var sensor2Chart = new Chart(document.getElementById("sensor2Chart"), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Sensor Soill Acidity",
+          data: [],
+          borderColor: "#3e95cd",
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Sensor Soil Acidity'
+        },
+        scales: {
+          xAxes: [{
+            display: true
+          }],
+          yAxes: [{
+            display: true,
+            ticks: {
+              // suggestedMin: 0,
+              // suggestedMax: 100
+            }
+          }]
+        }
+      }
+    });
+
+    function updateSensor2Chart(endpoint) {
+      $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data) {
+          sensor2Chart.data.labels.push(new Date().toLocaleTimeString());
+          sensor2Chart.data.datasets[0].data.push(data.value);
+
+          // hapus data lama jika data sudah mencapai 7
+          if (sensor2Chart.data.labels.length > 7) {
+            sensor2Chart.data.labels.shift();
+            sensor2Chart.data.datasets[0].data.shift();
+          }
+
+          sensor2Chart.update();
+        },
+        error: function(error_data) {
+          console.log(error_data);
+        }
+      });
+    }
+
+
+
+    var sensor3Chart = new Chart(document.getElementById("sensor3Chart"), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Sensor Water Quality",
+          data: [],
+          borderColor: "#3e95cd",
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Sensor Water Quality'
+        },
+        scales: {
+          xAxes: [{
+            display: true
+          }],
+          yAxes: [{
+            display: true,
+            ticks: {
+              // suggestedMin: 0,
+              // suggestedMax: 100
+            }
+          }]
+        }
+      }
+    });
+
+    function updateSensor3Chart(endpoint) {
+      $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data) {
+          sensor3Chart.data.labels.push(new Date().toLocaleTimeString());
+          sensor3Chart.data.datasets[0].data.push(data.value);
+
+          // hapus data lama jika data sudah mencapai 7
+          if (sensor3Chart.data.labels.length > 7) {
+            sensor3Chart.data.labels.shift();
+            sensor3Chart.data.datasets[0].data.shift();
+          }
+
+          sensor3Chart.update();
+        },
+        error: function(error_data) {
+          console.log(error_data);
+        }
+      });
+    }
+
+
+    var actuatorChart = new Chart(document.getElementById("actuatorChart"), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Actuator State",
+          data: [],
+          borderColor: "#3e95cd",
+          fill: false
+        }]
+      },
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Actuator State'
+        },
+        scales: {
+          xAxes: [{
+            display: true
+          }],
+          yAxes: [{
+            display: true,
+            ticks: {
+              // suggestedMin: 0,
+              // suggestedMax: 100
+            }
+          }]
+        }
+      }
+    });
+
+    function updateActuatorChart(endpoint) {
+      $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data) {
+          actuatorChart.data.labels.push(new Date().toLocaleTimeString());
+          actuatorChart.data.datasets[0].data.push(data.value);
+
+          // hapus data lama jika data sudah mencapai 7
+          if (actuatorChart.data.labels.length > 7) {
+            actuatorChart.data.labels.shift();
+            actuatorChart.data.datasets[0].data.shift();
+          }
+
+          actuatorChart.update();
+        },
+        error: function(error_data) {
+          console.log(error_data);
+        }
+      });
+    }
+
+      setInterval(function(){
+        updateSensorValue('/farm/humidity', 'sensor_hum');
+        updateSensorValue('/farm/acidity', 'sensor_aci');
+        updateSensorValue('/farm/quality', 'sensor_qua');
+        updateActuatorState('/actuator/actuator1', 'actuator1');
+      }, 1000);
+
+      setInterval(function(){
+        updateSensor1Chart('/farm/humidity');
+        updateSensor2Chart('/farm/acidity');
+        updateSensor3Chart('/farm/quality');  
+
+        updateActuatorChart('/actuator/actuator1');
+      }, 1000);
+    </script>
+  </body>
+</html>
